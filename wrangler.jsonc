@@ -7,10 +7,7 @@
   "name": "agents-starter",
   "main": "src/server.ts",
   "compatibility_date": "2025-04-28",
-  "compatibility_flags": [
-    "nodejs_compat",
-    "nodejs_compat_populate_process_env",
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": "public",
   },
