@@ -7,5 +7,8 @@ set shell := ["zsh", "-c"]
 deploy:
 	bun run deploy
 
+dev:
+	bun vite dev
+
 fix:
 	bun run format
