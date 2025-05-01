@@ -75,33 +75,33 @@ Add new tools in `tools.ts` using the tool builder:
 ```typescript
 // Example of a tool that requires confirmation
 const searchDatabase = tool({
-  description: "Search the database for user records",
-  parameters: z.object({
-    query: z.string(),
-    limit: z.number().optional(),
-  }),
-  // No execute function = requires confirmation
+	description: "Search the database for user records",
+	parameters: z.object({
+		query: z.string(),
+		limit: z.number().optional(),
+	}),
+	// No execute function = requires confirmation
 });
 
 // Example of an auto-executing tool
 const getCurrentTime = tool({
-  description: "Get current server time",
-  parameters: z.object({}),
-  execute: async () => new Date().toISOString(),
+	description: "Get current server time",
+	parameters: z.object({}),
+	execute: async () => new Date().toISOString(),
 });
 
 // Scheduling tool implementation
 const scheduleTask = tool({
-  description:
-    "schedule a task to be executed at a later time. 'when' can be a date, a delay in seconds, or a cron pattern.",
-  parameters: z.object({
-    type: z.enum(["scheduled", "delayed", "cron"]),
-    when: z.union([z.number(), z.string()]),
-    payload: z.string(),
-  }),
-  execute: async ({ type, when, payload }) => {
-    // ... see the implementation in tools.ts
-  },
+	description:
+		"schedule a task to be executed at a later time. 'when' can be a date, a delay in seconds, or a cron pattern.",
+	parameters: z.object({
+		type: z.enum(["scheduled", "delayed", "cron"]),
+		when: z.union([z.number(), z.string()]),
+		payload: z.string(),
+	}),
+	execute: async ({ type, when, payload }) => {
+		// ... see the implementation in tools.ts
+	},
 });
 ```
 
@@ -109,18 +109,18 @@ To handle tool confirmations, add execution functions to the `executions` object
 
 ```typescript
 export const executions = {
-  searchDatabase: async ({
-    query,
-    limit,
-  }: {
-    query: string;
-    limit?: number;
-  }) => {
-    // Implementation for when the tool is confirmed
-    const results = await db.search(query, limit);
-    return results;
-  },
-  // Add more execution handlers for other tools that require confirmation
+	searchDatabase: async ({
+		query,
+		limit,
+	}: {
+		query: string;
+		limit?: number;
+	}) => {
+		// Implementation for when the tool is confirmed
+		const results = await db.search(query, limit);
+		return results;
+	},
+	// Add more execution handlers for other tools that require confirmation
 };
 ```
 
