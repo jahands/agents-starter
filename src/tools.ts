@@ -42,7 +42,7 @@ const generateUUID = tool({
 	execute: async ({ num_uuids }) => {
 		const res = await fetch(`https://uuid.rocks/plain/bulk?count=${num_uuids}`)
 		if (!res.ok) {
-			throw new Error('failde to generate uuid')
+			throw new Error('failed to generate uuid')
 		}
 		return await res.text()
 	},
