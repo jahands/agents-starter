@@ -6,6 +6,11 @@
 
 A starter template for building AI-powered chat agents using Cloudflare's Agent platform, powered by [`agents`](https://www.npmjs.com/package/agents). This project provides a foundation for creating interactive chat experiences with AI, complete with a modern UI and tool integration capabilities.
 
+## Notes
+
+- Good examples here: https://github.com/cloudflare/mcp-server-cloudflare/tree/main/apps
+- https://github.com/jbwcloudflare/mcp/tree/main
+
 ## Features
 
 - 💬 Interactive chat interface with AI

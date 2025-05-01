@@ -1,8 +1,9 @@
-import { openai } from '@ai-sdk/openai'
+import { createOpenAI } from '@ai-sdk/openai'
 import { routeAgentRequest } from 'agents'
 import { AIChatAgent } from 'agents/ai-chat-agent'
 import { unstable_getSchedulePrompt } from 'agents/schedule'
 import { createDataStreamResponse, generateId, streamText } from 'ai'
+import { env } from 'cloudflare:workers'
 
 import { executions, tools } from './tools'
 import { processToolCalls } from './utils'
@@ -10,14 +11,13 @@ import { processToolCalls } from './utils'
 import type { Schedule } from 'agents'
 import type { StreamTextOnFinishCallback, ToolSet } from 'ai'
 
-// import { env } from "cloudflare:workers";
+// Cloudflare AI Gateway
+const openai = createOpenAI({
+	apiKey: env.OPENAI_API_KEY,
+	baseURL: env.GATEWAY_BASE_URL,
+})
 
 const model = openai('gpt-4o-2024-11-20')
-// Cloudflare AI Gateway
-// const openai = createOpenAI({
-//   apiKey: env.OPENAI_API_KEY,
-//   baseURL: env.GATEWAY_BASE_URL,
-// });
 
 /**
  * Chat Agent implementation that handles real-time AI chat interactions
