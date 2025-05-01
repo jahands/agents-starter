@@ -1,3 +1,4 @@
+// import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { createOpenAI } from '@ai-sdk/openai'
 import { routeAgentRequest } from 'agents'
 import { AIChatAgent } from 'agents/ai-chat-agent'
@@ -14,10 +15,18 @@ import type { StreamTextOnFinishCallback, ToolSet } from 'ai'
 // Cloudflare AI Gateway
 const openai = createOpenAI({
 	apiKey: env.OPENAI_API_KEY,
-	baseURL: env.GATEWAY_BASE_URL,
+	baseURL: `${env.GATEWAY_BASE_URL}/openai`,
 })
 
 const model = openai('gpt-4o-2024-11-20')
+
+// const google = createOpenAI({
+// 	apiKey: env.GOOGLE_API_KEY,
+// 	baseURL: `${env.GATEWAY_BASE_URL}/google-ai-studio/v1beta/openai`,
+// 	// baseURL: 'https://generativelanguage.googleapis.com/v1beta/openai',
+// })
+
+// const model = google('gemini-2.5-flash-preview-04-17')
 
 /**
  * Chat Agent implementation that handles real-time AI chat interactions
