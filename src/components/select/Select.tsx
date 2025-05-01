@@ -40,7 +40,7 @@ export const Select = ({
           "add-size-base !pr-9": size === "base",
           "add-focus": isPointer === false,
         },
-        className
+        className,
       )}
       style={{
         backgroundImage: "url(/assets/caret.svg)",

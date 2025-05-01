@@ -12,7 +12,7 @@ export type TooltipProps = {
 export const Tooltip = ({ children, className, content, id }: TooltipProps) => {
   const { activeTooltip, showTooltip, hideTooltip } = useTooltip();
   const [positionX, setPositionX] = useState<"center" | "left" | "right">(
-    "center"
+    "center",
   );
   const [positionY, setPositionY] = useState<"top" | "bottom">("top");
   const [isHoverAvailable, setIsHoverAvailable] = useState(false); // if hover state exists
@@ -93,7 +93,7 @@ export const Tooltip = ({ children, className, content, id }: TooltipProps) => {
               "left-1/2 -translate-x-1/2": positionX === "center",
               "-bottom-7": positionY === "bottom",
               "-top-7": positionY === "top",
-            }
+            },
           )}
           id={tooltipId}
           ref={tooltipRef}

@@ -92,9 +92,9 @@ export default function Chat() {
         part.type === "tool-invocation" &&
         part.toolInvocation.state === "call" &&
         toolsRequiringConfirmation.includes(
-          part.toolInvocation.toolName as keyof typeof tools
-        )
-    )
+          part.toolInvocation.toolName as keyof typeof tools,
+        ),
+    ),
   );
 
   const formatTime = (date: Date) => {
@@ -232,7 +232,7 @@ export default function Chat() {
                                   } relative`}
                                 >
                                   {part.text.startsWith(
-                                    "scheduled message"
+                                    "scheduled message",
                                   ) && (
                                     <span className="absolute -top-3 -left-2 text-base">
                                       🕒
@@ -242,7 +242,7 @@ export default function Chat() {
                                     id={`${m.id}-${i}`}
                                     content={part.text.replace(
                                       /^scheduled message: /,
-                                      ""
+                                      "",
                                     )}
                                   />
                                 </Card>
@@ -252,7 +252,7 @@ export default function Chat() {
                                   }`}
                                 >
                                   {formatTime(
-                                    new Date(m.createdAt as unknown as string)
+                                    new Date(m.createdAt as unknown as string),
                                   )}
                                 </p>
                               </div>
@@ -264,7 +264,7 @@ export default function Chat() {
                             const toolCallId = toolInvocation.toolCallId;
                             const needsConfirmation =
                               toolsRequiringConfirmation.includes(
-                                toolInvocation.toolName as keyof typeof tools
+                                toolInvocation.toolName as keyof typeof tools,
                               );
 
                             // Skip rendering the card in debug mode
@@ -348,7 +348,7 @@ export default function Chat() {
 }
 
 const hasOpenAiKeyPromise = fetch("/check-open-ai-key").then((res) =>
-  res.json<{ success: boolean }>()
+  res.json<{ success: boolean }>(),
 );
 
 function HasOpenAIKey() {

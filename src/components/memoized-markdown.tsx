@@ -17,7 +17,7 @@ const MemoizedMarkdownBlock = memo(
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
     </div>
   ),
-  (prevProps, nextProps) => prevProps.content === nextProps.content
+  (prevProps, nextProps) => prevProps.content === nextProps.content,
 );
 
 MemoizedMarkdownBlock.displayName = "MemoizedMarkdownBlock";
@@ -29,7 +29,7 @@ export const MemoizedMarkdown = memo(
       // biome-ignore lint/suspicious/noArrayIndexKey: immutable index
       <MemoizedMarkdownBlock content={block} key={`${id}-block_${index}`} />
     ));
-  }
+  },
 );
 
 MemoizedMarkdown.displayName = "MemoizedMarkdown";

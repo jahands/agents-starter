@@ -1,5 +1,5 @@
 onlyBuiltDependencies:
-  - '@biomejs/biome'
+  - "@biomejs/biome"
   - esbuild
   - sharp
   - workerd

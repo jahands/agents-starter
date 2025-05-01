@@ -33,7 +33,7 @@ export class Chat extends AIChatAgent<Env> {
 
   async onChatMessage(
     onFinish: StreamTextOnFinishCallback<ToolSet>,
-    options?: { abortSignal?: AbortSignal }
+    options?: { abortSignal?: AbortSignal },
   ) {
     // const mcpConnection = await this.mcp.connect(
     //   "https://path-to-mcp-server/sse"
@@ -70,7 +70,7 @@ If the user asks to schedule a task, use the schedule tool to schedule the task.
           tools: allTools,
           onFinish: async (args) => {
             onFinish(
-              args as Parameters<StreamTextOnFinishCallback<ToolSet>>[0]
+              args as Parameters<StreamTextOnFinishCallback<ToolSet>>[0],
             );
             // await this.mcp.closeConnection(mcpConnection.id);
           },
@@ -115,7 +115,7 @@ export default {
     }
     if (!process.env.OPENAI_API_KEY) {
       console.error(
-        "OPENAI_API_KEY is not set, don't forget to set it locally in .dev.vars, and use `wrangler secret bulk .dev.vars` to upload it to production"
+        "OPENAI_API_KEY is not set, don't forget to set it locally in .dev.vars, and use `wrangler secret bulk .dev.vars` to upload it to production",
       );
     }
     return (

@@ -31,7 +31,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 export type MenuItemProps = {
@@ -89,9 +89,9 @@ const DropdownMenu = ({
                 // interaction: 'none',
                 class:
                   "radix-state-open:text-neutral-950 dark:radix-state-open:text-white focus-visible:opacity-100",
-              }
+              },
             ),
-        className
+        className,
       )}
       disabled={disabled}
     >
@@ -114,7 +114,7 @@ const DropdownMenu = ({
             "origin-bottom-right": align === "end" && side === "top",
             "origin-bottom-left": align === "start" && side === "top",
             "text-sm font-normal": size === "sm",
-          }
+          },
         )}
       >
         {MenuItems?.map((item, index) => {
@@ -167,7 +167,7 @@ const DropdownMenu = ({
                       {
                         "radix-highlighted:bg-red-50 radix-highlighted:text-red-600 dark:radix-highlighted:bg-red-500/10 dark:radix-highlighted:text-red-400 text-red-500 dark:text-red-400/90":
                           item.destructiveAction,
-                      }
+                      },
                     )}
                   >
                     {item.label}

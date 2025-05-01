@@ -124,7 +124,7 @@ export function ToolInvocationCard({
                           const lines = item.text.split("\n").filter(Boolean);
                           return lines
                             .map(
-                              (line: string) => `- ${line.replace("\n~ ", "")}`
+                              (line: string) => `- ${line.replace("\n~ ", "")}`,
                             )
                             .join("\n");
                         }

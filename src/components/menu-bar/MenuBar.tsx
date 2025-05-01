@@ -31,7 +31,7 @@ const MenuOption = ({
         {
           "text-ob-base-300 bg-ob-base-200 focus-visible:border-ob-focus":
             isActive === id,
-        }
+        },
       )}
       onClick={onClick}
     >
@@ -61,7 +61,7 @@ export const MenuBar = ({
     <nav
       className={cn(
         "bg-ob-base-100 flex rounded-lg shadow-xs transition-colors",
-        className
+        className,
       )}
       ref={menuRef}
     >

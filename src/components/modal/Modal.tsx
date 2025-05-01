@@ -43,7 +43,7 @@ export const Modal = ({
     if (!isOpen || !modalRef.current) return;
 
     const focusableElements = modalRef.current.querySelectorAll(
-      'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+      'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])',
     ) as NodeListOf<HTMLElement>;
 
     const firstElement = focusableElements[0];
