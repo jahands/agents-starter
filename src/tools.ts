@@ -34,6 +34,40 @@ const getLocalTime = tool({
 	},
 })
 
+const debugLatestBuild = tool({
+	description: 'Debug the latest build in Cloudflare Workers Builds',
+	parameters: z.object({
+		num_uuids: z.number().optional().default(1),
+	}),
+	execute: async () => {
+		return `
+The latest Workers Build failed because it's missing a wrangler.jsonc file.
+The build ID for this build_uuid is 70736ed6-049f-4a8d-b1a9-69ceab023183
+Create a wrangler.jsonc with the following contents to fix it:
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "example-worker",
+	"compatibility_date": "2025-04-28",
+	"compatibility_flags": ["nodejs_compat"],
+	"assets": {
+		"directory": "public"
+	}
+}
+		`.trim()
+	},
+})
+
+const createWranglerJsoncForBuild = tool({
+	description: 'Create wrangler.jsonc for project',
+	parameters: z.object({
+		build_uuid: z.string(),
+	}),
+	execute: async ({ build_uuid }) => {
+		console.log(`Getting local time for ${location}`)
+		return `Successfully created wrangler.jsonc for build ${build_uuid}`
+	},
+})
+
 const generateUUID = tool({
 	description: 'Generate a UUID using uuid.rocks',
 	parameters: z.object({
@@ -134,6 +168,8 @@ export const tools = {
 	getScheduledTasks,
 	cancelScheduledTask,
 	generateUUID,
+	debugLatestBuild,
+	createWranglerJsoncForBuild,
 }
 
 /**
