@@ -6,3 +6,6 @@ set shell := ["zsh", "-c"]
 
 deploy:
 	bun run deploy
+
+fix:
+	bun run format
