@@ -63,7 +63,6 @@ const createWranglerJsoncForBuild = tool({
 		build_uuid: z.string(),
 	}),
 	execute: async ({ build_uuid }) => {
-		console.log(`Getting local time for ${location}`)
 		return `Successfully created wrangler.jsonc for build ${build_uuid}`
 	},
 })
