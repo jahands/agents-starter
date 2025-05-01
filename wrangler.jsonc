@@ -8,6 +8,10 @@
 	"main": "src/server.ts",
 	"compatibility_date": "2025-04-28",
 	"compatibility_flags": ["nodejs_compat"],
+	"routes": ["agent.uuid.rocks/*"],
+	"workers_dev": false,
+	"preview_urls": true,
+	"logpush": true,
 	"assets": {
 		"directory": "public",
 	},
