@@ -34,6 +34,20 @@ const getLocalTime = tool({
 	},
 })
 
+const generateUUID = tool({
+	description: 'Generate a UUID using uuid.rocks',
+	parameters: z.object({
+		num_uuids: z.number().optional().default(1),
+	}),
+	execute: async ({ num_uuids }) => {
+		const res = await fetch(`https://uuid.rocks/plain/bulk?count=${num_uuids}`)
+		if (!res.ok) {
+			throw new Error('failde to generate uuid')
+		}
+		return await res.text()
+	},
+})
+
 const scheduleTask = tool({
 	description: 'A tool to schedule a task to be executed at a later time',
 	parameters: unstable_scheduleSchema,
@@ -119,6 +133,7 @@ export const tools = {
 	scheduleTask,
 	getScheduledTasks,
 	cancelScheduledTask,
+	generateUUID,
 }
 
 /**
