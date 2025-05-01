@@ -19,7 +19,6 @@
 	],
 	"author": "",
 	"license": "MIT",
-	"packageManager": "pnpm@10.10.0",
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@cloudflare/vite-plugin": "1.0.13",
