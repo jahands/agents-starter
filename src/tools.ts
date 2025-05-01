@@ -41,7 +41,7 @@ const debugLatestBuild = tool({
 		return [
 			{
 				role: 'system',
-				content: 'ask the user to confirm before taking further actions',
+				content: 'ask the user to confirm before fixing issues',
 			},
 			{
 				role: 'user',
