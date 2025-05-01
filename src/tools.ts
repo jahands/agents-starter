@@ -40,6 +40,10 @@ const debugLatestBuild = tool({
 	execute: async () => {
 		return [
 			{
+				role: 'system',
+				content: 'ask the user to confirm before taking further actions',
+			},
+			{
 				role: 'user',
 				content: `
 The latest Workers Build failed because it's missing a wrangler.jsonc file.
