@@ -2,72 +2,69 @@
 
 const codeImports = [
 	// Groups
-	"<BUILTIN_MODULES>",
-	"<THIRD_PARTY_MODULES>",
-	"",
-	"^(@repo)(/.*)$", // Workspace imports
-	"",
+	'<BUILTIN_MODULES>',
+	'<THIRD_PARTY_MODULES>',
+	'',
+	'^(@repo)(/.*)$', // Workspace imports
+	'',
 	// Local (relative) imports
-	"^[.]{2}$", // ..
-	"^[.]{2}/", // ../
-	"^[.]/(?!index)", // ./foo (but not ./index)
-	"^[.]$", // .
-	"^[.]/index$", // ./index
-	"",
-];
+	'^[.]{2}$', // ..
+	'^[.]{2}/', // ../
+	'^[.]/(?!index)', // ./foo (but not ./index)
+	'^[.]$', // .
+	'^[.]/index$', // ./index
+	'',
+]
 
 // Type imports are ordered the same way, but without separators.
 // We also need a catch-all <TYPES> here to prevent prettier from failing.
-const typeImports = ["<TYPES>"].concat(
-	codeImports.filter((i) => i !== "").map((i) => `<TYPES>${i}`),
-);
+const typeImports = ['<TYPES>'].concat(
+	codeImports.filter((i) => i !== '').map((i) => `<TYPES>${i}`)
+)
 
 /** @type {import("prettier").Config} */
 const config = {
-	trailingComma: "es5",
+	trailingComma: 'es5',
 	tabWidth: 2,
 	useTabs: true,
 	semi: false,
 	singleQuote: true,
 	printWidth: 100,
-	plugins: [
-		"@ianvs/prettier-plugin-sort-imports",
-		"prettier-plugin-packagejson",
-	],
+	plugins: ['@ianvs/prettier-plugin-sort-imports', 'prettier-plugin-packagejson'],
 	importOrder: [...codeImports, ...typeImports],
-	importOrderTypeScriptVersion: "5.5.4",
+	importOrderTypeScriptVersion: '5.5.4',
 	overrides: [
 		{
-			files: "*.astro",
+			files: '*.astro',
 			options: {
-				parser: "astro",
+				parser: 'astro',
 			},
 		},
 		{
-			files: "*.mdx",
+			files: '*.mdx',
 			options: {
-				parser: "mdx",
+				parser: 'mdx',
 			},
 		},
 		{
-			files: ["*.jsonc", "*.code-workspace"],
+			files: ['*.jsonc', '*.code-workspace'],
 			options: {
-				trailingComma: "none",
+				trailingComma: 'none',
 			},
 		},
 		{
-			files: ["**/snippets/stylus/**/*.css"],
+			files: ['**/snippets/stylus/**/*.css'],
 			options: {
 				useTabs: false,
 			},
 		},
 		{
-			files: "Justfile",
+			files: 'Justfile',
 			options: {
 				useTabs: false,
 			},
 		},
 	],
-};
+}
 
-module.exports = config;
+module.exports = config

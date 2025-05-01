@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Markdown Table Styling (Tailwind @apply) */
 .markdown-body table {

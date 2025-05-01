@@ -1,73 +1,64 @@
-import { useEffect, useState, useRef, useCallback, use } from "react";
-import { useAgent } from "agents/react";
-import { useAgentChat } from "agents/ai-react";
-import type { Message } from "@ai-sdk/react";
-import type { tools } from "./tools";
-
+import { Avatar } from '@/components/avatar/Avatar'
 // Component imports
-import { Button } from "@/components/button/Button";
-import { Card } from "@/components/card/Card";
-import { Input } from "@/components/input/Input";
-import { Avatar } from "@/components/avatar/Avatar";
-import { Toggle } from "@/components/toggle/Toggle";
-import { MemoizedMarkdown } from "./components/memoized-markdown";
-import { ToolInvocationCard } from "@/components/tool-invocation-card/ToolInvocationCard";
-
+import { Button } from '@/components/button/Button'
+import { Card } from '@/components/card/Card'
+import { Input } from '@/components/input/Input'
+import { Toggle } from '@/components/toggle/Toggle'
+import { ToolInvocationCard } from '@/components/tool-invocation-card/ToolInvocationCard'
 // Icon imports
-import {
-	Bug,
-	Moon,
-	PaperPlaneRight,
-	Robot,
-	Sun,
-	Trash,
-} from "@phosphor-icons/react";
+import { Bug, Moon, PaperPlaneRight, Robot, Sun, Trash } from '@phosphor-icons/react'
+import { useAgentChat } from 'agents/ai-react'
+import { useAgent } from 'agents/react'
+import { use, useCallback, useEffect, useRef, useState } from 'react'
+
+import { MemoizedMarkdown } from './components/memoized-markdown'
+
+import type { Message } from '@ai-sdk/react'
+import type { tools } from './tools'
 
 // List of tools that require human confirmation
-const toolsRequiringConfirmation: (keyof typeof tools)[] = [
-	"getWeatherInformation",
-];
+const toolsRequiringConfirmation: (keyof typeof tools)[] = ['getWeatherInformation']
 
 export default function Chat() {
-	const [theme, setTheme] = useState<"dark" | "light">(() => {
+	const [theme, setTheme] = useState<'dark' | 'light'>(() => {
 		// Check localStorage first, default to dark if not found
-		const savedTheme = localStorage.getItem("theme");
-		return (savedTheme as "dark" | "light") || "dark";
-	});
-	const [showDebug, setShowDebug] = useState(false);
-	const messagesEndRef = useRef<HTMLDivElement>(null);
+		const savedTheme = localStorage.getItem('theme')
+		return (savedTheme as 'dark' | 'light') || 'dark'
+	})
+	const [showDebug, setShowDebug] = useState(false)
+	const messagesEndRef = useRef<HTMLDivElement>(null)
 
 	const scrollToBottom = useCallback(() => {
-		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-	}, []);
+		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+	}, [])
 
 	useEffect(() => {
 		// Apply theme class on mount and when theme changes
-		if (theme === "dark") {
-			document.documentElement.classList.add("dark");
-			document.documentElement.classList.remove("light");
+		if (theme === 'dark') {
+			document.documentElement.classList.add('dark')
+			document.documentElement.classList.remove('light')
 		} else {
-			document.documentElement.classList.remove("dark");
-			document.documentElement.classList.add("light");
+			document.documentElement.classList.remove('dark')
+			document.documentElement.classList.add('light')
 		}
 
 		// Save theme preference to localStorage
-		localStorage.setItem("theme", theme);
-	}, [theme]);
+		localStorage.setItem('theme', theme)
+	}, [theme])
 
 	// Scroll to bottom on mount
 	useEffect(() => {
-		scrollToBottom();
-	}, [scrollToBottom]);
+		scrollToBottom()
+	}, [scrollToBottom])
 
 	const toggleTheme = () => {
-		const newTheme = theme === "dark" ? "light" : "dark";
-		setTheme(newTheme);
-	};
+		const newTheme = theme === 'dark' ? 'light' : 'dark'
+		setTheme(newTheme)
+	}
 
 	const agent = useAgent({
-		agent: "chat",
-	});
+		agent: 'chat',
+	})
 
 	const {
 		messages: agentMessages,
@@ -79,27 +70,25 @@ export default function Chat() {
 	} = useAgentChat({
 		agent,
 		maxSteps: 5,
-	});
+	})
 
 	// Scroll to bottom when messages change
 	useEffect(() => {
-		agentMessages.length > 0 && scrollToBottom();
-	}, [agentMessages, scrollToBottom]);
+		agentMessages.length > 0 && scrollToBottom()
+	}, [agentMessages, scrollToBottom])
 
 	const pendingToolCallConfirmation = agentMessages.some((m: Message) =>
 		m.parts?.some(
 			(part) =>
-				part.type === "tool-invocation" &&
-				part.toolInvocation.state === "call" &&
-				toolsRequiringConfirmation.includes(
-					part.toolInvocation.toolName as keyof typeof tools,
-				),
-		),
-	);
+				part.type === 'tool-invocation' &&
+				part.toolInvocation.state === 'call' &&
+				toolsRequiringConfirmation.includes(part.toolInvocation.toolName as keyof typeof tools)
+		)
+	)
 
 	const formatTime = (date: Date) => {
-		return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-	};
+		return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+	}
 
 	return (
 		<div className="h-[100vh] w-full p-4 flex justify-center items-center bg-fixed overflow-hidden">
@@ -107,12 +96,7 @@ export default function Chat() {
 			<div className="h-[calc(100vh-2rem)] w-full mx-auto max-w-lg flex flex-col shadow-xl rounded-md overflow-hidden relative border border-neutral-300 dark:border-neutral-800">
 				<div className="px-4 py-3 border-b border-neutral-300 dark:border-neutral-800 flex items-center gap-3 sticky top-0 z-10">
 					<div className="flex items-center justify-center h-8 w-8">
-						<svg
-							width="28px"
-							height="28px"
-							className="text-[#F48120]"
-							data-icon="agents"
-						>
+						<svg width="28px" height="28px" className="text-[#F48120]" data-icon="agents">
 							<title>Cloudflare Agents</title>
 							<symbol id="ai:local:agents" viewBox="0 0 80 79">
 								<path
@@ -144,7 +128,7 @@ export default function Chat() {
 						className="rounded-full h-9 w-9"
 						onClick={toggleTheme}
 					>
-						{theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+						{theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
 					</Button>
 
 					<Button
@@ -169,8 +153,7 @@ export default function Chat() {
 									</div>
 									<h3 className="font-semibold text-lg">Welcome to AI Chat</h3>
 									<p className="text-muted-foreground text-sm">
-										Start a conversation with your AI assistant. Try asking
-										about:
+										Start a conversation with your AI assistant. Try asking about:
 									</p>
 									<ul className="text-sm text-left space-y-2">
 										<li className="flex items-center gap-2">
@@ -188,9 +171,8 @@ export default function Chat() {
 					)}
 
 					{agentMessages.map((m: Message, index) => {
-						const isUser = m.role === "user";
-						const showAvatar =
-							index === 0 || agentMessages[index - 1]?.role !== m.role;
+						const isUser = m.role === 'user'
+						const showAvatar = index === 0 || agentMessages[index - 1]?.role !== m.role
 
 						return (
 							<div key={m.id}>
@@ -199,16 +181,12 @@ export default function Chat() {
 										{JSON.stringify(m, null, 2)}
 									</pre>
 								)}
-								<div
-									className={`flex ${isUser ? "justify-end" : "justify-start"}`}
-								>
+								<div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
 									<div
-										className={`flex gap-2 max-w-[85%] ${
-											isUser ? "flex-row-reverse" : "flex-row"
-										}`}
+										className={`flex gap-2 max-w-[85%] ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
 									>
 										{showAvatar && !isUser ? (
-											<Avatar username={"AI"} />
+											<Avatar username={'AI'} />
 										) : (
 											!isUser && <div className="w-8" />
 										)}
@@ -216,59 +194,49 @@ export default function Chat() {
 										<div>
 											<div>
 												{m.parts?.map((part, i) => {
-													if (part.type === "text") {
+													if (part.type === 'text') {
 														return (
 															// biome-ignore lint/suspicious/noArrayIndexKey: immutable index
 															<div key={i}>
 																<Card
 																	className={`p-3 rounded-md bg-neutral-100 dark:bg-neutral-900 ${
 																		isUser
-																			? "rounded-br-none"
-																			: "rounded-bl-none border-assistant-border"
+																			? 'rounded-br-none'
+																			: 'rounded-bl-none border-assistant-border'
 																	} ${
-																		part.text.startsWith("scheduled message")
-																			? "border-accent/50"
-																			: ""
+																		part.text.startsWith('scheduled message')
+																			? 'border-accent/50'
+																			: ''
 																	} relative`}
 																>
-																	{part.text.startsWith(
-																		"scheduled message",
-																	) && (
-																		<span className="absolute -top-3 -left-2 text-base">
-																			🕒
-																		</span>
+																	{part.text.startsWith('scheduled message') && (
+																		<span className="absolute -top-3 -left-2 text-base">🕒</span>
 																	)}
 																	<MemoizedMarkdown
 																		id={`${m.id}-${i}`}
-																		content={part.text.replace(
-																			/^scheduled message: /,
-																			"",
-																		)}
+																		content={part.text.replace(/^scheduled message: /, '')}
 																	/>
 																</Card>
 																<p
 																	className={`text-xs text-muted-foreground mt-1 ${
-																		isUser ? "text-right" : "text-left"
+																		isUser ? 'text-right' : 'text-left'
 																	}`}
 																>
-																	{formatTime(
-																		new Date(m.createdAt as unknown as string),
-																	)}
+																	{formatTime(new Date(m.createdAt as unknown as string))}
 																</p>
 															</div>
-														);
+														)
 													}
 
-													if (part.type === "tool-invocation") {
-														const toolInvocation = part.toolInvocation;
-														const toolCallId = toolInvocation.toolCallId;
-														const needsConfirmation =
-															toolsRequiringConfirmation.includes(
-																toolInvocation.toolName as keyof typeof tools,
-															);
+													if (part.type === 'tool-invocation') {
+														const toolInvocation = part.toolInvocation
+														const toolCallId = toolInvocation.toolCallId
+														const needsConfirmation = toolsRequiringConfirmation.includes(
+															toolInvocation.toolName as keyof typeof tools
+														)
 
 														// Skip rendering the card in debug mode
-														if (showDebug) return null;
+														if (showDebug) return null
 
 														return (
 															<ToolInvocationCard
@@ -279,16 +247,16 @@ export default function Chat() {
 																needsConfirmation={needsConfirmation}
 																addToolResult={addToolResult}
 															/>
-														);
+														)
 													}
-													return null;
+													return null
 												})}
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						);
+						)
 					})}
 					<div ref={messagesEndRef} />
 				</div>
@@ -299,7 +267,7 @@ export default function Chat() {
 						handleAgentSubmit(e, {
 							data: {
 								annotations: {
-									hello: "world",
+									hello: 'world',
 								},
 							},
 						})
@@ -312,20 +280,16 @@ export default function Chat() {
 								disabled={pendingToolCallConfirmation}
 								placeholder={
 									pendingToolCallConfirmation
-										? "Please respond to the tool confirmation above..."
-										: "Type your message..."
+										? 'Please respond to the tool confirmation above...'
+										: 'Type your message...'
 								}
 								className="pl-4 pr-10 py-2 w-full rounded-full"
 								value={agentInput}
 								onChange={handleAgentInputChange}
 								onKeyDown={(e) => {
-									if (
-										e.key === "Enter" &&
-										!e.shiftKey &&
-										!e.nativeEvent.isComposing
-									) {
-										e.preventDefault();
-										handleAgentSubmit(e as unknown as React.FormEvent);
+									if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
+										e.preventDefault()
+										handleAgentSubmit(e as unknown as React.FormEvent)
 									}
 								}}
 								onValueChange={undefined}
@@ -344,15 +308,15 @@ export default function Chat() {
 				</form>
 			</div>
 		</div>
-	);
+	)
 }
 
-const hasOpenAiKeyPromise = fetch("/check-open-ai-key").then((res) =>
-	res.json<{ success: boolean }>(),
-);
+const hasOpenAiKeyPromise = fetch('/check-open-ai-key').then((res) =>
+	res.json<{ success: boolean }>()
+)
 
 function HasOpenAIKey() {
-	const hasOpenAiKey = use(hasOpenAiKeyPromise);
+	const hasOpenAiKey = use(hasOpenAiKeyPromise)
 
 	if (!hasOpenAiKey.success) {
 		return (
@@ -383,11 +347,11 @@ function HasOpenAIKey() {
 									OpenAI API Key Not Configured
 								</h3>
 								<p className="text-neutral-600 dark:text-neutral-300 mb-1">
-									Requests to the API, including from the frontend UI, will not
-									work until an OpenAI API key is configured.
+									Requests to the API, including from the frontend UI, will not work until an OpenAI
+									API key is configured.
 								</p>
 								<p className="text-neutral-600 dark:text-neutral-300">
-									Please configure an OpenAI API key by setting a{" "}
+									Please configure an OpenAI API key by setting a{' '}
 									<a
 										href="https://developers.cloudflare.com/workers/configuration/secrets/"
 										target="_blank"
@@ -395,13 +359,13 @@ function HasOpenAIKey() {
 										className="text-red-600 dark:text-red-400"
 									>
 										secret
-									</a>{" "}
-									named{" "}
+									</a>{' '}
+									named{' '}
 									<code className="bg-red-100 dark:bg-red-900/30 px-1.5 py-0.5 rounded text-red-600 dark:text-red-400 font-mono text-sm">
 										OPENAI_API_KEY
 									</code>
 									. <br />
-									You can also use a different model provider by following these{" "}
+									You can also use a different model provider by following these{' '}
 									<a
 										href="https://github.com/cloudflare/agents-starter?tab=readme-ov-file#use-a-different-ai-model-provider"
 										target="_blank"
@@ -416,7 +380,7 @@ function HasOpenAIKey() {
 					</div>
 				</div>
 			</div>
-		);
+		)
 	}
-	return null;
+	return null
 }
