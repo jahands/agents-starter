@@ -36,9 +36,7 @@ const getLocalTime = tool({
 
 const debugLatestBuild = tool({
 	description: 'Debug the latest build in Cloudflare Workers Builds',
-	parameters: z.object({
-		num_uuids: z.number().optional().default(1),
-	}),
+	parameters: z.object({}),
 	execute: async () => {
 		return `
 The latest Workers Build failed because it's missing a wrangler.jsonc file.
