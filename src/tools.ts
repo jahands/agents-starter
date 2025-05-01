@@ -38,14 +38,7 @@ const debugLatestBuild = tool({
 	description: 'Debug the latest build in Cloudflare Workers Builds',
 	parameters: z.object({}),
 	execute: async () => {
-		return [
-			{
-				role: 'system',
-				content: 'ask the user to confirm before fixing issues',
-			},
-			{
-				role: 'user',
-				content: `
+		return `
 The latest Workers Build failed because it's missing a wrangler.jsonc file.
 The build ID for this build_uuid is 70736ed6-049f-4a8d-b1a9-69ceab023183
 Create a wrangler.jsonc with the following contents to fix it:
@@ -58,9 +51,7 @@ Create a wrangler.jsonc with the following contents to fix it:
 		"directory": "public"
 	}
 }
-				`.trim(),
-			},
-		]
+		`.trim()
 	},
 })
 
